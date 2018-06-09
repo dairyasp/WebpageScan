@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import requests
 import time
@@ -18,7 +18,7 @@ def start_scan(url,f='./php.txt'):
             url_changed=url+line
             status_code=get_status_code(url_changed)
            # if status_code=="200" or status_code=="403":
-             print(url_changed+"  "+str(status_code))
+            print(url_changed+"  "+str(status_code))
     except StandardError:
         return None
 
