@@ -2,6 +2,7 @@
 
 import requests
 import time
+import progressbar
 
 def get_status_code(url):
     try:
@@ -14,11 +15,19 @@ def get_status_code(url):
 def start_scan(url,f='./php.txt'):
     try:
         print(url)
-        for line in open(f):
+        files=open(f)
+        #############################ProgressBar mode
+        #lens=len(files.readlines())
+        #progbar=progressbar.ProgressBar()
+        #progbar.start(lens)
+        #############################ProgressBar mode
+        for line in files:
             url_changed=url+line
             status_code=get_status_code(url_changed)
-           # if status_code=="200" or status_code=="403":
-            print(url_changed+"  "+str(status_code))
+            if status_code=="200" or status_code=="403":
+                print(url_changed+"  "+str(status_code))
+            #progbar.update(line+1)
+        #progbar.finish()
     except StandardError:
         return None
 
