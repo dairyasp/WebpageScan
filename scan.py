@@ -1,41 +1,42 @@
 #!/usr/bin/env python3
 
 import requests
-import time
-import progressbar
+import argparse
 
-def get_status_code(url):
+#自定义参数
+parser = argparse.ArgumentParser()
+parser.add_argument('website',help="Website for scan",type=str)
+args = parser.parse_args()
+
+#字典
+dict = 'dict/dict.txt'
+
+#传入网址参数
+website = args.website
+
+#请求头设置
+headers = {
+    'Accept': '*/*',
+    'Referer': website,
+    'User-Agent': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; ',
+    'Connection': 'Keep-Alive',
+    'Cache-Control': 'no-cache',
+}
+
+#字典与网址拼接后放入webdict
+webdict=[]
+
+#拼接网址与字典
+with open(dict) as infile:
+    while True:
+        exdict = infile.readlines().strip()
+        if(len(exdict) == 0):break
+        webdict.append(website+exdict)
+
+for url in webdict:
     try:
-        headers = {'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'}        
-        u=requests.head(url,headers=headers) #Get request with head
-        return u.status_code
-    except StandardError:
-        return None
-
-def start_scan(url,f='./php.txt'):
-    try:
-        print(url)
-        files=open(f)
-        #############################ProgressBar mode
-        #lens=len(files.readlines())
-        #progbar=progressbar.ProgressBar()
-        #progbar.start(lens)
-        #############################ProgressBar mode
-        for line in files:
-            url_changed=url+line
-            status_code=get_status_code(url_changed)
-            if status_code=="200" or status_code=="403":
-                print(url_changed+"  "+str(status_code))
-            #progbar.update(line+1)
-        #progbar.finish()
-    except StandardError:
-        return None
-
-web=input("Input the WebPath:")
-web=web.split()
-if len(web)==2:
-    start_scan(web[0],web[1])
-elif len(web)==1:
-    start_scan(web[0])
-else:
-    print("You have some error about your input")
+        respon = requests.get(url,headers=headers)
+    except:
+        print url + e
+    if(respon.status_code==200):
+        print '['+respon.status_code+']'+ url
