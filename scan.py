@@ -37,6 +37,6 @@ for url in webdict:
     try:
         respon = requests.get(url,headers=headers)
     except:
-        print url + e
+        print(url + e)
     if(respon.status_code==200):
-        print '['+respon.status_code+']'+ url
+        print('['+respon.status_code+']'+ url)
