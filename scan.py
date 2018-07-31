@@ -29,14 +29,15 @@ webdict=[]
 #拼接网址与字典
 with open(dict) as infile:
     while True:
-        exdict = infile.readlines().strip()
+        exdict = infile.readline().strip()
         if(len(exdict) == 0):break
         webdict.append(website+exdict)
 
 for url in webdict:
     try:
         respon = requests.get(url,headers=headers)
-    except:
-        print(url + e)
+    except Exception as e:
+        print(url)
+        print(e)
     if(respon.status_code==200):
-        print('['+respon.status_code+']'+ url)
+        print('['+str(respon.status_code)+']'+ url)
