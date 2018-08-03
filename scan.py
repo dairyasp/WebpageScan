@@ -26,6 +26,21 @@ headers = {
 #字典与网址拼接后放入webdict
 webdict=[]
 
+#判断404页面
+sunge_page1 = website+"/sungejiushiwosunge/sungedashabi.php"
+sunge_page2 = website+"/sungejiushiwosunge/sungeshigexiaoshabi.php"
+
+try:
+    if(requests.get(sunge_page1,headers=headers) == requests.get(sunge_page2,headers=headers)):
+        not_found_page = requests.get(sunge_page1,headers=headers)
+    else:
+        not_found_page = requests.get("http://www.baidu.com",headers=headers)
+except Exception as e:
+    print(e)
+
+#主页
+#index = requests.get(website,headers=headers)
+
 #拼接网址与字典
 with open(dict) as infile:
     while True:
@@ -39,5 +54,5 @@ for url in webdict:
     except Exception as e:
         print(url)
         print(e)
-    if(respon.status_code==200):
+    if(respon.status_code!=404 and respon.text != not_found_page.text):
         print('['+str(respon.status_code)+']'+ url)
