@@ -1,10 +1,9 @@
 ##依赖库安装
 
-######运行环境：python3.6.5
--------
-
 
 ```
+python3.6.5
+
 pip install requests
 
 pip install termcolor
