@@ -16,12 +16,14 @@ class Scan:
 		}
 	def _scan(self,url):
 		try:
-			respon = requests.get(url,headers=self.headers)
+			respon = requests.get(url,headers=self.headers,allow_redirects=False)
 			if(respon.status_code != 404 and respon.text != self.page_404.text):
 				if(respon.status_code == 200):
 					print(colored('['+str(respon.status_code)+']','green')+" "+url)
+				elif(respon.status_code == 301 or respon.status_code == 302):
+					print(colored('['+str(respon.status_code)+']','yellow')+" "+url + " --> " + str(respon.headers['location']))
 				else:
-					print(colored('['+str(respon.status_code)+']','yellow')+" "+url)
+					print(colored('['+str(respon.status_code)+']','pink')+" "+url)
 		except Exception as e:
 			print(e)
 
@@ -39,7 +41,7 @@ class Scan:
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
-	parser.add_argument('website',help="Website for scan,eg:http://www.baidu.com",type=str)
+	parser.add_argument('-u','--website',help="Website for scan,eg:http://www.baidu.com",type=str)
 	args = parser.parse_args()
 	s = Scan(args.website)
 	s._404()
