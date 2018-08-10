@@ -31,11 +31,11 @@ class Scan(threading.Thread):
 					respon = requests.get(url,headers=self.headers,allow_redirects=False)
 					if(respon.status_code != 404 and respon.text != self.page_404.text):
 						if(respon.status_code == 200):
-							print(colored('['+str(respon.status_code)+']','green')+" - "+ dic)
+							print(colored('['+str(respon.status_code)+']','green')+" - "+ str(len(respon.text)) + "B - " +dic)
 						elif(respon.status_code == 301 or respon.status_code == 302):
-							print(colored('['+str(respon.status_code)+']','yellow')+" - "+ dic + " --> " + str(respon.headers['location']))
+							print(colored('['+str(respon.status_code)+']','yellow')+" - "+ str(len(respon.text)) + "B - " + dic + " --> " + str(respon.headers['location']))
 						else:
-							print(colored('['+str(respon.status_code)+']','magenta')+" - "+ dic)
+							print(colored('['+str(respon.status_code)+']','magenta')+" - "+ str(len(respon.text)) + "B - " + dic)
 				else:
 					lock.release()
 			except Exception as e:
